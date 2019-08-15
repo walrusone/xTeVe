@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	m3u "../src/internal/m3u-parser"
+	m3udl "../src/internal/m3u-parser"
 )
 
 // Playlisten parsen
@@ -215,16 +216,17 @@ func buildM3U(groups []string) (m3u string, err error) {
 
 	var xmltvURL = fmt.Sprintf("%s://%s/xmltv/xteve.xml", System.ServerProtocol.XML, System.Domain)
 	m3u = fmt.Sprintf(`#EXTM3U url-tvg="%s" x-tvg-url="%s"`+"\n", xmltvURL, xmltvURL)
+	m3udl = fmt.Sprintf(`#EXTM3U url-tvg="%s" x-tvg-url="%s"`+"\n", xmltvURL, xmltvURL)
 
 	for _, channelNumber := range channelNumbers {
 
 		var channel = m3uChannels[channelNumber]
 		var parameter = fmt.Sprintf(`#EXTINF:0 channelID="%s" tvg-chno="%s" tvg-name="%s" tvg-id="%s" tvg-logo="%s" group-title="%s",%s`+"\n", channel.XEPG, channel.XChannelID, channel.XName, channel.XChannelID, getCacheImageURL(channel.TvgLogo), channel.XGroupTitle, channel.XName)
-		//var stream, err = createStreamingURL("M3U", channel.FileM3UID, channel.XChannelID, channel.XName, channel.URL)
-		//if err == nil {
-			
-			m3u = m3u + parameter + channel.URL + "\n"
-		//}
+		var stream, err = createStreamingURL("M3U", channel.FileM3UID, channel.XChannelID, channel.XName, channel.URL)
+		if err == nil {
+			m3u = m3u + parameter + stream + "\n"
+			m3udl = m3udl + parameter + channel.URL + "\n"
+		}
 
 	}
 
@@ -232,6 +234,8 @@ func buildM3U(groups []string) (m3u string, err error) {
 
 		var filename = System.Folder.Data + "xteve.m3u"
 		err = writeByteToFile(filename, []byte(m3u))
+		var filename2 = System.Folder.Data + "xtevedl.m3u"
+		err = writeByteToFile(filename, []byte(m3udl))
 
 	}
 
