@@ -293,7 +293,7 @@ func createStreamingURL(streamingType, playlistID, channelNumber, channelName, u
 
 	}
 
-	streamingURL = streamInfo.URL = url
+	streamingURL = fmt.Sprintf("%s", streamInfo.URL)
 
 	return
 }
