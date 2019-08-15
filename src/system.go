@@ -259,7 +259,7 @@ func setDeviceID() {
 func createStreamingURL(streamingType, playlistID, channelNumber, channelName, url string) (streamingURL string, err error) {
 
 	var streamInfo StreamInfo
-	var serverProtocol string
+	//var serverProtocol string
 
 	if len(Data.Cache.StreamingURLS) == 0 {
 		Data.Cache.StreamingURLS = make(map[string]StreamInfo)
@@ -283,7 +283,7 @@ func createStreamingURL(streamingType, playlistID, channelNumber, channelName, u
 
 	}
 
-	switch streamingType {
+	/*switch streamingType {
 
 	case "DVR":
 		serverProtocol = System.ServerProtocol.DVR
@@ -291,7 +291,7 @@ func createStreamingURL(streamingType, playlistID, channelNumber, channelName, u
 	case "M3U":
 		serverProtocol = System.ServerProtocol.M3U
 
-	}
+	}*/
 
 	streamingURL = fmt.Sprintf("%s", streamInfo.URL)
 
