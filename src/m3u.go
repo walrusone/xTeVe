@@ -10,7 +10,6 @@ import (
 	"strings"
 
 	m3u "../src/internal/m3u-parser"
-	m3udl "../src/internal/m3u-parser"
 )
 
 // Playlisten parsen
@@ -225,7 +224,6 @@ func buildM3U(groups []string) (m3u string, err error) {
 		var stream, err = createStreamingURL("M3U", channel.FileM3UID, channel.XChannelID, channel.XName, channel.URL)
 		if err == nil {
 			m3u = m3u + parameter + stream + "\n"
-			m3udl = m3udl + parameter + channel.URL + "\n"
 		}
 
 	}
@@ -234,8 +232,6 @@ func buildM3U(groups []string) (m3u string, err error) {
 
 		var filename = System.Folder.Data + "xteve.m3u"
 		err = writeByteToFile(filename, []byte(m3u))
-		var filename2 = System.Folder.Data + "xtevedl.m3u"
-		err = writeByteToFile(filename, []byte(m3udl))
 
 	}
 
